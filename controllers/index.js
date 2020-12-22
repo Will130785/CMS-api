@@ -10,113 +10,84 @@ const Venue = require("../models/venue");
 
 //GET REQUESTS
 module.exports.getEvents = async (req, res, next) => {
-    helpers.getData(Event);
+    helpers.getData(Event, req, res)
+    
 };
 
 module.exports.getGallery = async (req, res, next) => {
-    helpers.getData(Gallery);
+    helpers.getData(Gallery, req, res);
 };
 
 module.exports.getMenus = async (req, res, next) => {
-    helpers.getData(Menu);
+    helpers.getData(Menu, req, res);
 };
 
 module.exports.getProfile = async (req, res, next) => {
-    helpers.getData(Profile);
+    helpers.getData(Profile, req, res);
 };
 
 module.exports.getTestimonials = async (req, res, next) => {
-    helpers.getData(Testimonial);
+    helpers.getData(Testimonial, req, res);
 };
 
 module.exports.getUsers = async (req, res, next) => {
-    helpers.getData(User);
+    helpers.getData(User, req, res);
 };
 
 module.exports.getVacancies = async (req, res, next) => {
-   helpers.getData(Vacancy);
+   helpers.getData(Vacancy, req, res);
 };
 
 module.exports.getVenues = async (req, res, next) => {
-    helpers.getData(Venue);
+    helpers.getData(Venue, req, res);
 };
 
 //POST REQUESTS
 module.exports.setEvents = async (req, res, next) => {
-    //Test data
-    const data = {
-        name: "Test event 5",
-        date: "20 February 2021",
-        time: "8pm",
-        image: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZXZlbnR8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-        description: "Test description about this test event"
-        };
+    //Get data
+    const data = req.body;
 
     helpers.setData(Event, data);
 };
 
 module.exports.setGallery = async (req, res, next) => {
-    const data = {
-        image: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZXZlbnR8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-        description: "Test description about this test image"
-        };
+    const data = req.body;
 
     helpers.setData(Gallery, data);
 };
 
 module.exports.setMenus = async (req, res, next) => {
-    const data = {
-        name: "Test event 5",
-        menu: "Test menu"
-        };
+    const data = req.body;
 
     helpers.setData(Menu, data);
 };
 
 module.exports.setProfile = async (req, res, next) => {
-    const data = {
-        name: "Test event 5",
-        photo: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZXZlbnR8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
-        };
+    const data = req.body;
 
     helpers.setData(Profile, data);
 };
 
 module.exports.setTestimonials = async (req, res, next) => {
-    const data = {
-        name: "Test name",
-        date: "15 December 2020",
-        testimonial: "Test testimonial"
-        };
+    const data = req.body;
 
     helpers.setData(Testimonial, data);
 };
 
 module.exports.setUsers = async (req, res, next) => {
-    const data = {
-        username: "Test",
-        password: "test123",
-        };
+    const data = req.body;
 
     helpers.setData(User, data);
 };
 
 module.exports.setVacancies = async (req, res, next) => {
-    const data = {
-        title: "Test",
-        duties: "Test duties",
-        contact: "Mr Test"
-        };
+    const data = req.body;
 
     helpers.setData(Vacancy, data);
 };
 
 module.exports.setVenues = async (req, res, next) => {
-    const data = {
-        name: "Test venue",
-        subHeading: "Subheading about venue",
-        description: "Test description about this venue"
-        };
+    const data = req.body;
 
     helpers.setData(Venue, data);
 };
@@ -124,32 +95,40 @@ module.exports.setVenues = async (req, res, next) => {
 //DELETE REQUESTS
 module.exports.deleteEvents = async (req, res, next) => {
     await console.log("You made a DELETE request");
+    helpers.deleteData(Event, req.params.id)
 };
 
 module.exports.deleteGallery = async (req, res, next) => {
     await console.log("You made a DELETE request");
+    helpers.deleteData(Gallery, req.params.id)
 };
 
 module.exports.deleteMenus = async (req, res, next) => {
     await console.log("You made a DELETE request");
+    helpers.deleteData(Menu, req.params.id)
 };
 
 module.exports.deleteProfile = async (req, res, next) => {
     await console.log("You made a DELETE request");
+    helpers.deleteData(Profile, req.params.id)
 };
 
 module.exports.deleteTestimonials = async (req, res, next) => {
     await console.log("You made a DELETE request");
+    helpers.deleteData(Testimonial, req.params.id)
 };
 
 module.exports.deleteUsers = async (req, res, next) => {
     await console.log("You made a DELETE request");
+    helpers.deleteData(User, req.params.id)
 };
 
 module.exports.deleteVacancies = async (req, res, next) => {
     await console.log("You made a DELETE request");
+    helpers.deleteData(Vacancy, req.params.id)
 };
 
 module.exports.deleteVenues = async (req, res, next) => {
     await console.log("You made a DELETE request");
+    helpers.deleteData(Venue, req.params.id)
 };
