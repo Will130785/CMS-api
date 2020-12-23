@@ -1,19 +1,24 @@
 const ctrl = require("../controllers/index");
+const middleware = require("../middleware/index");
+const passport = require("passport");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 // module.exports = router;
 
 module.exports = function(app){
         //Get requests
-        app.get("/events", ctrl.getEvents);
-        app.get("/gallery", ctrl.getGallery);
-        app.get("/menus", ctrl.getMenus);
-        app.get("/profile", ctrl.getProfile);
-        app.get("/testimonials", ctrl.getTestimonials);
-        app.get("/users", ctrl.getUsers);
-        app.get("/vacancies", ctrl.getVacancies);
-        app.get("/venues", ctrl.getVenues);
+        app.get("/events", passport.authenticate("jwt", {session: false}), ctrl.getEvents);
+        app.get("/gallery", passport.authenticate("jwt", {session: false}), ctrl.getGallery);
+        app.get("/menus", passport.authenticate("jwt", {session: false}), ctrl.getMenus);
+        app.get("/profile", passport.authenticate("jwt", {session: false}), ctrl.getProfile);
+        app.get("/testimonials", passport.authenticate("jwt", {session: false}), ctrl.getTestimonials);
+        app.get("/users", passport.authenticate("jwt", {session: false}), ctrl.getUsers);
+        app.get("/vacancies", passport.authenticate("jwt", {session: false}), ctrl.getVacancies);
+        app.get("/venues", passport.authenticate("jwt", {session: false}), ctrl.getVenues);
 
         //Post requests
+        app.post("/login", ctrl.login);
         app.post("/events", ctrl.setEvents);
         app.post("/gallery", ctrl.setGallery);
         app.post("/menus", ctrl.setMenus);

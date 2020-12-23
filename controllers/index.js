@@ -43,6 +43,12 @@ module.exports.getVenues = async (req, res, next) => {
 };
 
 //POST REQUESTS
+module.exports.login = async (req, res, next) => {
+    const data = req.body;
+
+    helpers.loginUser(User, data, req, res)
+}
+
 module.exports.setEvents = async (req, res, next) => {
     //Get data
     const data = req.body;
@@ -77,7 +83,8 @@ module.exports.setTestimonials = async (req, res, next) => {
 module.exports.setUsers = async (req, res, next) => {
     const data = req.body;
 
-    helpers.setData(User, data);
+    helpers.registerUser(User, data, req, res);
+    
 };
 
 module.exports.setVacancies = async (req, res, next) => {
