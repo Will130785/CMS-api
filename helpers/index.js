@@ -63,40 +63,45 @@ module.exports.registerUser = async function(model, data, req, res){
 
     console.log(data);
 
-    if(data.password !== data.confirmPassword) {
-        return res.status(400).json({
-            msg: "Passwords do not match"
-        });
-    } else {
-        //Check for unique user
-        model.findOne({
-            username: data.username
-        }).then(user => {
-            if(user){
-                console.log("Usermame is already taken");
-                return res.status(400).json({
-                    msg: "Username is already taken"
-                })
-            }
-        });
-
-        //Data is valid and now we can register user
-        let newUser = new model(data);
-
-        //Hash password
-        bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(newUser.password, salt, (err, hash) => {
-                if(err) throw err;
-                newUser.password = hash;
-                newUser.save().then(user => {
-                    return res.status(201).json({
-                        success: true,
-                        msg: "User is now registered"
+    try {
+        if(data.password !== data.confirmPassword) {
+            return res.status(400).json({
+                msg: "Passwords do not match"
+            });
+        } else {
+            //Check for unique user
+            model.findOne({
+                username: data.username
+            }).then(user => {
+                if(user){
+                    console.log("Usermame is already taken");
+                    return res.status(400).json({
+                        msg: "Username is already taken"
+                    })
+                }
+            });
+    
+            //Data is valid and now we can register user
+            let newUser = new model(data);
+    
+            //Hash password
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newUser.password, salt, (err, hash) => {
+                    if(err) throw err;
+                    newUser.password = hash;
+                    newUser.save().then(user => {
+                        return res.status(201).json({
+                            success: true,
+                            msg: "User is now registered"
+                        });
                     });
                 });
             });
-        });
-    };
+        };
+
+    } catch(err) {
+        console.log(err)
+    }
     
     // let newUser = new model({username: data.username,});
     // model.register(newUser, data.password, (err, user) => {
@@ -110,44 +115,51 @@ module.exports.registerUser = async function(model, data, req, res){
 
 module.exports.loginUser = async function(model, data, req, res){
 
-        model.findOne({username: data.username}).then(user => {
-            if(!user) {
-                console.log("No user found")
-                return res.status(404).json({
-                    msg: "Username not found",
-                    success: false
-                })
-            }
 
-            //If ther is a user we will compare the password
-            bcrypt.compare(data.password, user.password).then(isMatch => {
-                if(isMatch){
-                    //Users password is correct and we send the json token for that user
-                    const payload = {
-                        _id: user._id,
-                        username: user.username 
-                    }
-
-                    jwt.sign(payload, key, {
-                        expiresIn: 604800
-                    }, (err, token) => {
-                        res.status(200).json({
-                            success: true,
-                            user: user,
-                            token: `Bearer ${token}`,
-                            msg: "You are now logged in"
-                        })
-                    })
-                    console.log("You are now logged in")
-                } else {
-                    console.log("Incorrect password")
+        try {
+            model.findOne({username: data.username}).then(user => {
+                if(!user) {
+                    console.log("No user found")
                     return res.status(404).json({
-                        msg: "Incorrect Password",
+                        msg: "Username not found",
                         success: false
                     })
                 }
+    
+                //If ther is a user we will compare the password
+                bcrypt.compare(data.password, user.password).then(isMatch => {
+                    if(isMatch){
+                        //Users password is correct and we send the json token for that user
+                        const payload = {
+                            _id: user._id,
+                            username: user.username 
+                        }
+    
+                        jwt.sign(payload, key, {
+                            expiresIn: 604800
+                        }, (err, token) => {
+                            res.status(200).json({
+                                success: true,
+                                user: user,
+                                token: `Bearer ${token}`,
+                                msg: "You are now logged in"
+                            })
+                        })
+                        console.log("You are now logged in")
+                    } else {
+                        console.log("Incorrect password")
+                        return res.status(404).json({
+                            msg: "Incorrect Password",
+                            success: false
+                        })
+                    }
+                })
             })
-        })
+
+        } catch(err) {
+            console.log(err)
+        }
+        
     // try {
     //     await console.log("You made a POST request");
 

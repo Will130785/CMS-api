@@ -4,7 +4,6 @@ const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// module.exports = router;
 
 module.exports = function(app){
         //Get requests

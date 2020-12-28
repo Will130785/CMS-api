@@ -1,3 +1,4 @@
+//Dependencies
 require("dotenv").config();
 const express = require("express");
 const app = express();
@@ -5,22 +6,17 @@ const PORT = process.env.PORT || 3000;
 const MONGO_DB = process.env.DB_CONNECT;
 const mongoConnect = require("./dbconnect");
 const bodyParser = require("body-parser");
-const path = require("path");
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const User = require("./models/user");
 const cors = require("cors");
 
+//CORS
 app.use(cors());
 
+//BODY PARSER CONFIG
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
- 
-// parse application/json
+ // parse application/json
 app.use(bodyParser.json())
-
-//Set up static directory
-app.use(express.static(path.join(__dirname, "public")));
 
 //Connect to database
 mongoConnect(MONGO_DB);

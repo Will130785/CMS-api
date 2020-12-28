@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 
 const eventSchema = new mongoose.Schema({
-    name: String,
+    title: String,
     date: String,
     time: String,
-    image: String,
-    description: String
+    imageLink: String,
+    description: String,
+    link: String,
+    status: String
 });
 
 module.exports = mongoose.model("Event", eventSchema);
